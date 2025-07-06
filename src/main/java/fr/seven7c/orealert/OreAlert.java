@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.BanList;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -120,34 +121,8 @@ public class OreAlert extends JavaPlugin implements Listener {
         getConfig().addDefault("ores." + material.name().toLowerCase() + ".max-realistic", maxRealistic);
     }
 
-    @Override
-    public void onEnable() {
-        getServer().getPluginManager().registerEvents(this, this);
-        saveDefaultConfig();
-        loadConfig();
-        
-        // Enregistrement de la commande
-        getCommand("7s7core").setExecutor((sender, command, label, args) -> {
-            if (!sender.hasPermission("7s7core.admin")) {
-                sender.sendMessage("§cTu n'as pas la permission d'utiliser cette commande!");
-                return true;
-            }
-            
-            if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-                reloadConfig();
-                loadConfig();
-                sender.sendMessage("§aConfiguration rechargée avec succès!");
-                return true;
-            }
-            
-            // Aide de la commande
-            sender.sendMessage("§6=== 7S7C Ore Alert ===");
-            sender.sendMessage("§7/7s7core reload §f- Recharge la configuration");
-            return true;
-        });
-        
-        getLogger().info("7S7C_Ore_Alert activé avec succès!");
-    }
+    private int alertThreshold;
+    private long timeWindow;
 
     private void loadConfig() {
         getConfig().addDefault("alert-threshold", 3);
@@ -207,10 +182,10 @@ public class OreAlert extends JavaPlugin implements Listener {
         String warningMessage = getConfig().getString("settings.warning-message", "&cAttention: Vous avez miné %amount% %ore% en peu de temps. Soyez prudent !")
                 .replace("%amount%", String.valueOf(oreCount))
                 .replace("%ore%", oreName);
-                
-        String banMessage = getConfig().getString("settings.ban-message", "&cVous avez été banni pour minage suspect de %ore% (Quantité: %amount% en 20 minutes)")
-                .replace("%amount%", String.valueOf(oreCount))
-                .replace("%ore%", oreName);
+        String banMessage = getConfig().getString("ban-message", "§cVous avez été banni pour minage suspect.")
+                .replace("%player%", player.getName())
+                .replace("%ore%", formatOreName(blockType))
+                .replace("%amount%", String.valueOf(oreCount));
         
         // Vérifier les seuils
         if (oreCount >= threshold.getVerySuspiciousThreshold()) {
@@ -224,7 +199,9 @@ public class OreAlert extends JavaPlugin implements Listener {
             alertAdmins(alertMessage);
             
             // Bannir le joueur
-            player.banPlayer(banMessage);
+            String banReason = banMessage.replace("§c", ""); // Retirer les codes de couleur pour la raison
+            Bukkit.getBanList(BanList.Type.NAME).addBan(player.getName(), banReason, null, null);
+            player.kickPlayer(banMessage);
             
         } else if (oreCount >= threshold.getSuspiciousThreshold()) {
             // Seuil d'alerte - Avertissement
