@@ -1,0 +1,124 @@
+# Configuration des seuils de détection (quantités en 20 minutes)
+# Format: 
+#   suspicious: Seuil pour déclencher une alerte
+#   very-suspicious: Seuil pour bannir le joueur
+#   max-realistic: Quantité maximale réaliste pour un joueur normal
+
+# Configuration des seuils par défaut
+# Ces valeurs peuvent être modifiées sans recompiler le plugin
+
+# Diamant
+diamond_ore:
+  suspicious: 20
+  very-suspicious: 30
+  max-realistic: 15
+
+deepslate_diamond_ore:
+  suspicious: 20
+  very-suspicious: 30
+  max-realistic: 15
+
+# Netherite (Ancient Debris)
+ancient_debris:
+  suspicious: 6
+  very-suspicious: 8
+  max-realistic: 4
+
+# Émeraude
+emerald_ore:
+  suspicious: 5
+  very-suspicious: 8
+  max-realistic: 3
+
+deepslate_emerald_ore:
+  suspicious: 5
+  very-suspicious: 8
+  max-realistic: 3
+
+# Or
+gold_ore:
+  suspicious: 30
+  very-suspicious: 40
+  max-realistic: 24
+
+deepslate_gold_ore:
+  suspicious: 30
+  very-suspicious: 40
+  max-realistic: 24
+
+nether_gold_ore:
+  suspicious: 30
+  very-suspicious: 40
+  max-realistic: 24
+
+# Quartz du Nether
+nether_quartz_ore:
+  suspicious: 30
+  very-suspicious: 40
+  max-realistic: 64
+
+# Fer
+iron_ore:
+  suspicious: 80
+  very-suspicious: 100
+  max-realistic: 64
+
+deepslate_iron_ore:
+  suspicious: 80
+  very-suspicious: 100
+  max-realistic: 64
+
+# Redstone
+redstone_ore:
+  suspicious: 160
+  very-suspicious: 200
+  max-realistic: 128
+
+deepslate_redstone_ore:
+  suspicious: 160
+  very-suspicious: 200
+  max-realistic: 128
+
+# Lapis-lazuli
+lapis_ore:
+  suspicious: 30
+  very-suspicious: 40
+  max-realistic: 25
+
+deepslate_lapis_ore:
+  suspicious: 30
+  very-suspicious: 40
+  max-realistic: 25
+
+# Charbon
+coal_ore:
+  suspicious: 220
+  very-suspicious: 300
+  max-realistic: 192
+
+deepslate_coal_ore:
+  suspicious: 220
+  very-suspicious: 300
+  max-realistic: 192
+
+# Cuivre
+copper_ore:
+  suspicious: 160
+  very-suspicious: 200
+  max-realistic: 128
+
+deepslate_copper_ore:
+  suspicious: 160
+  very-suspicious: 200
+  max-realistic: 128
+
+# Paramètres généraux
+settings:
+  # Durée de la fenêtre de détection en secondes (20 minutes par défaut)
+  detection-window: 1200
+  
+  # Message d'avertissement pour les joueurs
+  warning-message: "&cAttention: Vous avez miné %amount% %ore% en peu de temps. Soyez prudent !"
+  
+  # Message de bannissement
+  ban-message: "&cVous avez été banni pour minage suspect de %ore% (Quantité: %amount% en 20 minutes)"

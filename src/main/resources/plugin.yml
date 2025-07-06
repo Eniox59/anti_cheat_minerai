@@ -1,0 +1,33 @@
+name: 7S7C_Ore_Alert
+version: 1.0
+main: fr.seven7c.orealert.OreAlert
+description: Système de détection de minage suspect pour 7S7C
+api-version: '1.20'
+authors: [7S7C]
+website: https://7s7c.fr/
+
+# Configuration des permissions
+permissions:
+  7s7core.admin:
+    description: Permet d'utiliser les commandes d'administration du plugin
+    default: op
+    children:
+      7s7core.alerts: true
+      7s7core.bypass: true
+  
+  7s7core.alerts:
+    description: Permet de recevoir les alertes de minage suspect
+    default: op
+  
+  7s7core.bypass:
+    description: Permet de contourner la détection de minage suspect
+    default: op
+
+# Configuration des commandes
+commands:
+  7s7core:
+    description: Commande principale du plugin
+    usage: /7s7core reload
+    permission: 7s7core.admin
+    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande."
+    aliases: [orealert, 7S7C_ORE]
